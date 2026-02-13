@@ -47,9 +47,7 @@ function abrirCarta() {
     
     // 🔥 Centra el scroll verticalmente después de mostrar el video
     setTimeout(() => {
-      const container = videoFinalContainer;
-      const scrollCenter = (container.scrollHeight - container.clientHeight) / 2;
-      container.scrollTop = scrollCenter;
+      videoFinalContainer.scrollTop = 10;
     }, 100);
   };
 }
