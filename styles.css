@@ -64,6 +64,7 @@ body {
   height: auto;
   object-fit: contain;
   display: block;
+  pointer-events: none; /* 🔥 Hace que el video no capture clicks */
 }
 
 /* 🔥 Efecto blur cuando se abre el GIF */
@@ -81,8 +82,20 @@ body {
   width: 15%;    /* 15% del ancho del video */
   height: 8%;    /* 8% del alto del video */
   cursor: pointer;
-  z-index: 5;
-  /* border: 2px solid red; */ /* 🔥 Descomenta para ver el área clickeable */
+  z-index: 10;   /* 🔥 Por encima del video */
+  pointer-events: auto; /* 🔥 Asegura que capture clicks */
+  /* 🔥 Área visible para debugging - descomenta para ver */
+  /* background: rgba(255, 0, 0, 0.3); */
+  /* border: 2px solid red; */
+}
+
+/* 🔥 Aumenta el área de toque en móviles */
+@media (hover: none) and (pointer: coarse) {
+  #clickableArea {
+    /* Hace el área un poco más grande en móviles */
+    width: 20%;
+    height: 10%;
+  }
 }
 
 /* ================= BOTÓN ================= */

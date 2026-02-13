@@ -58,15 +58,34 @@ function abrirCarta() {
 }
 
 // 🔥 Abrir GIF modal al hacer click en el área
-clickableArea.addEventListener("click", () => {
+clickableArea.addEventListener("click", (e) => {
+  console.log("Click detectado en área clickeable"); // 🔥 Para debugging
+  e.stopPropagation(); // Previene propagación del evento
   gifModal.classList.remove("hidden");
   videoFinalContainer.classList.add("blurred");
-  videoFinal.pause(); // Pausa el video mientras se ve el GIF
+  videoFinal.pause();
+});
+
+// 🔥 También detectar touch events para móviles
+clickableArea.addEventListener("touchstart", (e) => {
+  console.log("Touch detectado en área clickeable"); // 🔥 Para debugging
+  e.preventDefault(); // Previene comportamiento por defecto
+  e.stopPropagation();
+  gifModal.classList.remove("hidden");
+  videoFinalContainer.classList.add("blurred");
+  videoFinal.pause();
 });
 
 // 🔥 Cerrar GIF modal y volver
 volverBtn.addEventListener("click", () => {
   gifModal.classList.add("hidden");
   videoFinalContainer.classList.remove("blurred");
-  videoFinal.play(); // Reanuda el video
+  videoFinal.play();
+});
+
+volverBtn.addEventListener("touchstart", (e) => {
+  e.preventDefault();
+  gifModal.classList.add("hidden");
+  videoFinalContainer.classList.remove("blurred");
+  videoFinal.play();
 });
