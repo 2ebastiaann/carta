@@ -44,6 +44,7 @@ body {
   justify-content: flex-start; /* empieza a la izquierda */
   align-items: center;         /* vertical centrado */
   overflow: visible;           /* permite que sobresalga del contenedor */
+  
 }
 
 #videoFinal {
@@ -51,6 +52,9 @@ body {
   height: auto;
   position: relative;
   left: -25px; /* lo mantiene en el borde izquierdo */
+  margin-top: 20px; /* extra para subir o bajar */
+  object-fit: cover;       /* llena el contenedor recortando bordes si es necesario */
+  object-position: 45% 50%; /* centra el video en su contenedor */
 }
 
 
