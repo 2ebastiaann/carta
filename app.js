@@ -44,5 +44,12 @@ function abrirCarta() {
     videoContainer.classList.add("hidden");
     videoFinalContainer.classList.remove("hidden");
     videoFinal.play();
+    
+    // 🔥 Centra el scroll verticalmente después de mostrar el video
+    setTimeout(() => {
+      const container = videoFinalContainer;
+      const scrollCenter = (container.scrollHeight - container.clientHeight) / 2;
+      container.scrollTop = scrollCenter;
+    }, 100);
   };
 }
