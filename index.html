@@ -32,19 +32,25 @@
 
   <!-- VIDEO FINAL -->
   <div class="video-final-container hidden" id="videoFinalContainer">
-    <video 
-      id="videoFinal"
-      src="assets/carta-final.mp4"
-      autoplay
-      loop
-      playsinline
-      preload="auto"
-      controlsList="nodownload"
-      disablePictureInPicture
-    ></video>
+    <!-- 🔥 Wrapper que contiene el video y el área clickeable -->
+    <div class="video-wrapper">
+      <video 
+        id="videoFinal"
+        src="assets/carta-final.mp4"
+        autoplay
+        loop
+        playsinline
+        preload="auto"
+        controlsList="nodownload"
+        disablePictureInPicture
+      ></video>
+
+      <!-- 🔥 ÁREA CLICKEABLE anclada al video -->
+      <div id="clickableArea"></div>
+    </div>
   </div>
 
-  <!-- MODAL -->
+  <!-- MODAL CONTRASEÑA -->
   <div class="modal hidden" id="modal">
     <div class="modal-content">
       <h2>Ingresa la fecha 💌</h2>
@@ -52,6 +58,12 @@
       <button id="confirmarBtn">Confirmar</button>
       <p id="errorMsg"></p>
     </div>
+  </div>
+
+  <!-- 🔥 MODAL GIF -->
+  <div class="gif-modal hidden" id="gifModal">
+    <img id="gifImage" src="assets/ventana1.gif" alt="Ventana" />
+    <button id="volverBtn">← Volver</button>
   </div>
 
   <script src="app.js"></script>

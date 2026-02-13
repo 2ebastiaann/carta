@@ -9,6 +9,11 @@ const videoFinal = document.getElementById("videoFinal");
 const videoContainer = document.getElementById("videoContainer");
 const videoFinalContainer = document.getElementById("videoFinalContainer");
 
+// 🔥 Elementos del GIF modal
+const clickableArea = document.getElementById("clickableArea");
+const gifModal = document.getElementById("gifModal");
+const volverBtn = document.getElementById("volverBtn");
+
 const PASSWORD = "14022025";
 
 // 🔥 Asegurar calidad y reinicio correcto
@@ -51,3 +56,17 @@ function abrirCarta() {
     }, 100);
   };
 }
+
+// 🔥 Abrir GIF modal al hacer click en el área
+clickableArea.addEventListener("click", () => {
+  gifModal.classList.remove("hidden");
+  videoFinalContainer.classList.add("blurred");
+  videoFinal.pause(); // Pausa el video mientras se ve el GIF
+});
+
+// 🔥 Cerrar GIF modal y volver
+volverBtn.addEventListener("click", () => {
+  gifModal.classList.add("hidden");
+  videoFinalContainer.classList.remove("blurred");
+  videoFinal.play(); // Reanuda el video
+});
