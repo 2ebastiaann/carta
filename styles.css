@@ -90,8 +90,8 @@ body {
 #clickableArea {
   position: absolute;
   /* 🔥 AJUSTA AQUÍ LA POSICIÓN DEL ÁREA CLICKEABLE */
-  bottom: 6.5%;    /* Distancia desde abajo (aumenta para subir, disminuye para bajar) */
-  left: 8%;        /* Distancia desde la izquierda (aumenta para mover a la derecha) */
+  bottom: 10%;    /* Distancia desde abajo (aumenta para subir, disminuye para bajar) */
+  left: 18%;        /* Distancia desde la izquierda (aumenta para mover a la derecha) */
   width: 15%;      /* Ancho del área */
   height: 8%;      /* Alto del área */
   
