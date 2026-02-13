@@ -51,8 +51,8 @@ body {
   width: 130%;
   height: auto;
   position: relative;
-  left: -25px; /* lo mantiene en el borde izquierdo */
-  margin-top: 20px; /* extra para subir o bajar */
+  left: -5px; /* lo mantiene en el borde izquierdo */
+  margin-top: 30px; /* extra para subir o bajar */
   object-fit: cover;       /* llena el contenedor recortando bordes si es necesario */
   object-position: 45% 50%; /* centra el video en su contenedor */
 }
