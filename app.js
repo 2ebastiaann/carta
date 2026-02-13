@@ -33,6 +33,10 @@ confirmarBtn.addEventListener("click", () => {
   if (passwordInput.value === PASSWORD) {
     modal.classList.add("hidden");
     errorMsg.textContent = "";
+    
+    // 🔥 Mantener scroll arriba antes de abrir carta
+    videoContainer.scrollTop = 0;
+    
     abrirCarta();
   } else {
     errorMsg.textContent = "Fecha incorrecta 💔";

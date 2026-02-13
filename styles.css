@@ -84,7 +84,7 @@ body {
 /* 🔥 ÁREA CLICKEABLE - Posicionada con porcentajes relativos al video */
 #clickableArea {
   position: absolute;
-  bottom: 6%;
+  bottom: 6.5%;    /* 🔥 Subido un poco (era 6%) */
   left: 8%;
   width: 15%;
   height: 8%;
@@ -212,10 +212,11 @@ body {
   /* 🔥 Previene que Safari intente hacer zoom */
   -webkit-user-select: none;
   user-select: none;
+  margin-bottom: 10px; /* 🔥 Espacio entre GIF y botón */
 }
 
 #volverBtn {
-  margin-top: 30px;
+  margin-top: 20px;   /* 🔥 Reducido de 30px a 20px (10px más arriba) */
   padding: 12px 30px;
   font-size: 16px;
   border: none;
