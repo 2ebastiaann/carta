@@ -21,11 +21,32 @@ window.addEventListener("load", () => {
   videoInicial.pause();
   videoInicial.currentTime = 0;
   videoInicial.load();
+  
+  // 🔥 Asegurar que siempre empiece desde arriba
+  videoContainer.scrollTop = 0;
+  window.scrollTo(0, 0);
 });
 
 // Abrir modal
 abrirBtn.addEventListener("click", () => {
   modal.classList.remove("hidden");
+});
+
+// 🔥 Prevenir que el teclado mueva la cámara en móviles
+passwordInput.addEventListener("focus", () => {
+  // Pequeño delay para que el teclado aparezca
+  setTimeout(() => {
+    videoContainer.scrollTop = 0;
+    window.scrollTo(0, 0);
+  }, 300);
+});
+
+// 🔥 Cuando el teclado se oculta, volver arriba
+passwordInput.addEventListener("blur", () => {
+  setTimeout(() => {
+    videoContainer.scrollTop = 0;
+    window.scrollTo(0, 0);
+  }, 100);
 });
 
 // Confirmar contraseña
@@ -34,8 +55,15 @@ confirmarBtn.addEventListener("click", () => {
     modal.classList.add("hidden");
     errorMsg.textContent = "";
     
-    // 🔥 Mantener scroll arriba antes de abrir carta
+    // 🔥 Forzar scroll arriba inmediatamente
     videoContainer.scrollTop = 0;
+    window.scrollTo(0, 0);
+    
+    // 🔥 Asegurar que se mantenga arriba durante la transición
+    setTimeout(() => {
+      videoContainer.scrollTop = 0;
+      window.scrollTo(0, 0);
+    }, 50);
     
     abrirCarta();
   } else {
@@ -45,6 +73,10 @@ confirmarBtn.addEventListener("click", () => {
 
 function abrirCarta() {
   abrirBtn.style.display = "none";
+
+  // 🔥 Una vez más antes de reproducir
+  videoContainer.scrollTop = 0;
+  window.scrollTo(0, 0);
 
   videoInicial.currentTime = 0;
   videoInicial.play();
@@ -62,7 +94,7 @@ function abrirCarta() {
 
 // 🔥 Función para abrir el modal del GIF
 function abrirGifModal() {
-  console.log("Abriendo GIF modal"); // Para debugging
+  console.log("Abriendo GIF modal");
   gifModal.classList.remove("hidden");
   videoFinalContainer.classList.add("blurred");
   videoFinal.pause();
@@ -70,10 +102,9 @@ function abrirGifModal() {
 
 // 🔥 Función para cerrar el modal del GIF
 function cerrarGifModal() {
-  console.log("Cerrando GIF modal"); // Para debugging
+  console.log("Cerrando GIF modal");
   gifModal.classList.add("hidden");
   videoFinalContainer.classList.remove("blurred");
-  // 🔥 Safari requiere interacción del usuario para reproducir video
   videoFinal.play().catch(err => {
     console.log("No se pudo reproducir automáticamente:", err);
   });
