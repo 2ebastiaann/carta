@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+
+  <!-- 🔥 CONFIGURACIÓN DE ZOOM CORRECTA -->
+  <meta name="viewport" 
+        content="width=device-width, 
+                 initial-scale=1.0, 
+                 minimum-scale=1.0, 
+                 maximum-scale=3.0, 
+                 user-scalable=yes">
+
+  <title>Carta</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- VIDEO INICIAL -->
+  <div class="video-container" id="videoContainer">
+    <video 
+      id="videoInicial"
+      src="assets/carta.mp4"
+      playsinline
+      preload="auto"
+      controlsList="nodownload"
+      disablePictureInPicture
+    ></video>
+
+    <button id="abrirBtn">Abrir</button>
+  </div>
+
+  <!-- VIDEO FINAL -->
+  <div class="video-final-container hidden" id="videoFinalContainer">
+    <video 
+      id="videoFinal"
+      src="assets/carta-final.mp4"
+      autoplay
+      loop
+      playsinline
+      preload="auto"
+      controlsList="nodownload"
+      disablePictureInPicture
+    ></video>
+  </div>
+
+  <!-- MODAL -->
+  <div class="modal hidden" id="modal">
+    <div class="modal-content">
+      <h2>Ingresa la fecha 💌</h2>
+      <input type="password" id="passwordInput" placeholder="DDMMYYYY" />
+      <button id="confirmarBtn">Confirmar</button>
+      <p id="errorMsg"></p>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
