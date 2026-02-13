@@ -54,7 +54,15 @@
   <div class="modal hidden" id="modal">
     <div class="modal-content">
       <h2>Ingresa la fecha 💌</h2>
-      <input type="password" id="passwordInput" placeholder="DDMMYYYY" />
+      <!-- 🔥 Añadido readonly inicialmente para evitar zoom en Safari -->
+      <input 
+        type="text" 
+        inputmode="numeric"
+        id="passwordInput" 
+        placeholder="DDMMYYYY"
+        readonly
+        onfocus="this.removeAttribute('readonly');"
+      />
       <button id="confirmarBtn">Confirmar</button>
       <p id="errorMsg"></p>
     </div>

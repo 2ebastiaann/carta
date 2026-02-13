@@ -6,13 +6,15 @@
 
 html, body {
   height: 100%;
+  /* 🔥 Prevenir que Safari mueva la página con el teclado */
+  position: fixed;
+  width: 100%;
+  overflow: hidden;
 }
 
 body {
   background-color: #ffffff;
   font-family: sans-serif;
-  overflow-x: hidden;
-  /* 🔥 Previene comportamientos extraños en Safari */
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -20,7 +22,9 @@ body {
 
 /* ----- Primer Video ----- */
 .video-container {
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100vh;
   overflow-y: auto;
@@ -30,6 +34,7 @@ body {
   flex-direction: column;
   justify-content: center;
   transition: filter 0.3s ease;
+  -webkit-overflow-scrolling: touch;
 }
 
 #videoInicial {
@@ -41,7 +46,9 @@ body {
 
 /* ----- Video Final ----- */
 .video-final-container {
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100vh;
   overflow-y: auto;
@@ -51,7 +58,6 @@ body {
   flex-direction: column;
   justify-content: center;
   transition: filter 0.3s ease;
-  /* 🔥 Safari fix */
   -webkit-overflow-scrolling: touch;
 }
 
@@ -69,7 +75,6 @@ body {
   object-fit: contain;
   display: block;
   pointer-events: none;
-  /* 🔥 Safari necesita esto para que no interfiera con touch */
   -webkit-user-select: none;
   user-select: none;
 }
@@ -77,26 +82,27 @@ body {
 /* 🔥 Efecto blur cuando se abre el GIF */
 .video-final-container.blurred {
   filter: blur(8px);
-  -webkit-filter: blur(8px); /* 🔥 Prefijo para Safari */
+  -webkit-filter: blur(8px);
   pointer-events: none;
 }
 
 /* 🔥 ÁREA CLICKEABLE - Posicionada con porcentajes relativos al video */
 #clickableArea {
   position: absolute;
-  bottom: 7.5%;    /* 🔥 Subido un poco (era 6%) */
-  left: 13%;
-  width: 15%;
-  height: 8%;
+  /* 🔥 AJUSTA AQUÍ LA POSICIÓN DEL ÁREA CLICKEABLE */
+  bottom: 6.5%;    /* Distancia desde abajo (aumenta para subir, disminuye para bajar) */
+  left: 8%;        /* Distancia desde la izquierda (aumenta para mover a la derecha) */
+  width: 15%;      /* Ancho del área */
+  height: 8%;      /* Alto del área */
+  
   cursor: pointer;
   z-index: 10;
   pointer-events: auto;
-  /* 🔥 Safari necesita esto para detectar touch */
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   user-select: none;
-  /* 🔥 Área visible para debugging - descomenta para ver */
+  /* 🔥 Área visible para debugging - descomenta para ver dónde está */
   /* background: rgba(255, 0, 0, 0.5); */
   /* border: 2px solid red; */
 }
@@ -106,7 +112,6 @@ body {
   #clickableArea {
     width: 20%;
     height: 10%;
-    /* 🔥 Mínimo tamaño táctil recomendado por Apple */
     min-width: 44px;
     min-height: 44px;
   }
@@ -129,7 +134,6 @@ body {
   cursor: pointer;
   transition: 0.3s ease;
   z-index: 10;
-  /* 🔥 Safari fix */
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -147,7 +151,7 @@ body {
   justify-content: center;
   align-items: center;
   backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px); /* 🔥 Safari */
+  -webkit-backdrop-filter: blur(8px);
   z-index: 100;
 }
 
@@ -159,15 +163,20 @@ body {
   width: 85%;
   max-width: 320px;
   animation: fadeIn 0.3s ease;
+  /* 🔥 Prevenir que Safari haga zoom */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
 }
 
 .modal-content input {
   margin-top: 15px;
   padding: 10px;
   width: 100%;
-  font-size: 16px;
+  font-size: 16px; /* 🔥 Mínimo 16px para que Safari no haga zoom */
   border-radius: 8px;
   border: 1px solid #ccc;
+  /* 🔥 Prevenir zoom en Safari iOS */
+  -webkit-appearance: none;
 }
 
 .modal-content button {
@@ -178,7 +187,6 @@ body {
   background-color: #5a0f1b;
   color: white;
   cursor: pointer;
-  /* 🔥 Safari fix */
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -199,7 +207,7 @@ body {
   align-items: center;
   z-index: 200;
   backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px); /* 🔥 Safari */
+  -webkit-backdrop-filter: blur(10px);
   animation: fadeIn 0.3s ease;
 }
 
@@ -209,14 +217,13 @@ body {
   height: auto;
   border-radius: 15px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-  /* 🔥 Previene que Safari intente hacer zoom */
   -webkit-user-select: none;
   user-select: none;
-  margin-bottom: 10px; /* 🔥 Espacio entre GIF y botón */
+  margin-bottom: 10px;
 }
 
 #volverBtn {
-  margin-top: 20px;   /* 🔥 Reducido de 30px a 20px (10px más arriba) */
+  margin-top: 20px;
   padding: 12px 30px;
   font-size: 16px;
   border: none;
@@ -226,9 +233,7 @@ body {
   font-weight: bold;
   cursor: pointer;
   transition: 0.3s ease;
-  /* 🔥 Safari fix */
   -webkit-tap-highlight-color: transparent;
-  /* 🔥 Tamaño mínimo táctil */
   min-width: 44px;
   min-height: 44px;
 }

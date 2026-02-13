@@ -9,7 +9,6 @@ const videoFinal = document.getElementById("videoFinal");
 const videoContainer = document.getElementById("videoContainer");
 const videoFinalContainer = document.getElementById("videoFinalContainer");
 
-// 🔥 Elementos del GIF modal
 const clickableArea = document.getElementById("clickableArea");
 const gifModal = document.getElementById("gifModal");
 const volverBtn = document.getElementById("volverBtn");
@@ -22,9 +21,10 @@ window.addEventListener("load", () => {
   videoInicial.currentTime = 0;
   videoInicial.load();
   
-  // 🔥 Asegurar que siempre empiece desde arriba
+  // 🔥 Forzar posición inicial
+  document.documentElement.scrollTop = 0;
+  document.body.scrollTop = 0;
   videoContainer.scrollTop = 0;
-  window.scrollTo(0, 0);
 });
 
 // Abrir modal
@@ -32,40 +32,51 @@ abrirBtn.addEventListener("click", () => {
   modal.classList.remove("hidden");
 });
 
-// 🔥 Prevenir que el teclado mueva la cámara en móviles
+// 🔥 Prevenir scroll cuando se abre el teclado
+let originalScrollPos = 0;
+
 passwordInput.addEventListener("focus", () => {
-  // Pequeño delay para que el teclado aparezca
-  setTimeout(() => {
-    videoContainer.scrollTop = 0;
-    window.scrollTo(0, 0);
-  }, 300);
+  originalScrollPos = window.pageYOffset || document.documentElement.scrollTop;
+  
+  // 🔥 Prevenir scroll en Safari
+  document.body.style.position = 'fixed';
+  document.body.style.top = `-${originalScrollPos}px`;
+  document.body.style.width = '100%';
 });
 
-// 🔥 Cuando el teclado se oculta, volver arriba
 passwordInput.addEventListener("blur", () => {
-  setTimeout(() => {
-    videoContainer.scrollTop = 0;
-    window.scrollTo(0, 0);
-  }, 100);
+  // 🔥 Restaurar scroll
+  document.body.style.position = '';
+  document.body.style.top = '';
+  document.body.style.width = '';
+  
+  window.scrollTo(0, 0);
+  videoContainer.scrollTop = 0;
 });
 
 // Confirmar contraseña
 confirmarBtn.addEventListener("click", () => {
   if (passwordInput.value === PASSWORD) {
+    // 🔥 Desactivar el blur del input manualmente
+    passwordInput.blur();
+    
+    // 🔥 Forzar restauración de posición
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.width = '';
+    
     modal.classList.add("hidden");
     errorMsg.textContent = "";
     
-    // 🔥 Forzar scroll arriba inmediatamente
-    videoContainer.scrollTop = 0;
-    window.scrollTo(0, 0);
-    
-    // 🔥 Asegurar que se mantenga arriba durante la transición
-    setTimeout(() => {
-      videoContainer.scrollTop = 0;
+    // 🔥 Esperar un frame antes de abrir carta
+    requestAnimationFrame(() => {
       window.scrollTo(0, 0);
-    }, 50);
-    
-    abrirCarta();
+      videoContainer.scrollTop = 0;
+      
+      requestAnimationFrame(() => {
+        abrirCarta();
+      });
+    });
   } else {
     errorMsg.textContent = "Fecha incorrecta 💔";
   }
@@ -74,9 +85,9 @@ confirmarBtn.addEventListener("click", () => {
 function abrirCarta() {
   abrirBtn.style.display = "none";
 
-  // 🔥 Una vez más antes de reproducir
-  videoContainer.scrollTop = 0;
+  // 🔥 Asegurar posición arriba
   window.scrollTo(0, 0);
+  videoContainer.scrollTop = 0;
 
   videoInicial.currentTime = 0;
   videoInicial.play();
@@ -92,17 +103,13 @@ function abrirCarta() {
   };
 }
 
-// 🔥 Función para abrir el modal del GIF
 function abrirGifModal() {
-  console.log("Abriendo GIF modal");
   gifModal.classList.remove("hidden");
   videoFinalContainer.classList.add("blurred");
   videoFinal.pause();
 }
 
-// 🔥 Función para cerrar el modal del GIF
 function cerrarGifModal() {
-  console.log("Cerrando GIF modal");
   gifModal.classList.add("hidden");
   videoFinalContainer.classList.remove("blurred");
   videoFinal.play().catch(err => {
@@ -110,7 +117,7 @@ function cerrarGifModal() {
   });
 }
 
-// 🔥 Eventos para el área clickeable - Safari necesita ambos
+// Eventos para el área clickeable
 clickableArea.addEventListener("click", (e) => {
   e.preventDefault();
   e.stopPropagation();
@@ -123,7 +130,6 @@ clickableArea.addEventListener("touchend", (e) => {
   abrirGifModal();
 }, { passive: false });
 
-// 🔥 Prevenir scroll accidental en Safari al tocar el área
 clickableArea.addEventListener("touchstart", (e) => {
   e.preventDefault();
 }, { passive: false });
@@ -132,7 +138,7 @@ clickableArea.addEventListener("touchmove", (e) => {
   e.preventDefault();
 }, { passive: false });
 
-// 🔥 Eventos para el botón volver
+// Eventos para el botón volver
 volverBtn.addEventListener("click", (e) => {
   e.preventDefault();
   e.stopPropagation();
