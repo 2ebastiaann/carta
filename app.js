@@ -50,42 +50,66 @@ function abrirCarta() {
     videoFinalContainer.classList.remove("hidden");
     videoFinal.play();
     
-    // 🔥 Centra el scroll verticalmente después de mostrar el video
     setTimeout(() => {
       videoFinalContainer.scrollTop = 10;
     }, 100);
   };
 }
 
-// 🔥 Abrir GIF modal al hacer click en el área
-clickableArea.addEventListener("click", (e) => {
-  console.log("Click detectado en área clickeable"); // 🔥 Para debugging
-  e.stopPropagation(); // Previene propagación del evento
+// 🔥 Función para abrir el modal del GIF
+function abrirGifModal() {
+  console.log("Abriendo GIF modal"); // Para debugging
   gifModal.classList.remove("hidden");
   videoFinalContainer.classList.add("blurred");
   videoFinal.pause();
-});
+}
 
-// 🔥 También detectar touch events para móviles
-clickableArea.addEventListener("touchstart", (e) => {
-  console.log("Touch detectado en área clickeable"); // 🔥 Para debugging
-  e.preventDefault(); // Previene comportamiento por defecto
-  e.stopPropagation();
-  gifModal.classList.remove("hidden");
-  videoFinalContainer.classList.add("blurred");
-  videoFinal.pause();
-});
-
-// 🔥 Cerrar GIF modal y volver
-volverBtn.addEventListener("click", () => {
+// 🔥 Función para cerrar el modal del GIF
+function cerrarGifModal() {
+  console.log("Cerrando GIF modal"); // Para debugging
   gifModal.classList.add("hidden");
   videoFinalContainer.classList.remove("blurred");
-  videoFinal.play();
-});
+  // 🔥 Safari requiere interacción del usuario para reproducir video
+  videoFinal.play().catch(err => {
+    console.log("No se pudo reproducir automáticamente:", err);
+  });
+}
+
+// 🔥 Eventos para el área clickeable - Safari necesita ambos
+clickableArea.addEventListener("click", (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+  abrirGifModal();
+}, { passive: false });
+
+clickableArea.addEventListener("touchend", (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+  abrirGifModal();
+}, { passive: false });
+
+// 🔥 Prevenir scroll accidental en Safari al tocar el área
+clickableArea.addEventListener("touchstart", (e) => {
+  e.preventDefault();
+}, { passive: false });
+
+clickableArea.addEventListener("touchmove", (e) => {
+  e.preventDefault();
+}, { passive: false });
+
+// 🔥 Eventos para el botón volver
+volverBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+  cerrarGifModal();
+}, { passive: false });
+
+volverBtn.addEventListener("touchend", (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+  cerrarGifModal();
+}, { passive: false });
 
 volverBtn.addEventListener("touchstart", (e) => {
   e.preventDefault();
-  gifModal.classList.add("hidden");
-  videoFinalContainer.classList.remove("blurred");
-  videoFinal.play();
-});
+}, { passive: false });

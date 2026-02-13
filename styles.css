@@ -12,6 +12,8 @@ body {
   background-color: #ffffff;
   font-family: sans-serif;
   overflow-x: hidden;
+  /* 🔥 Previene comportamientos extraños en Safari */
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* ================= VIDEO ================= */
@@ -49,6 +51,8 @@ body {
   flex-direction: column;
   justify-content: center;
   transition: filter 0.3s ease;
+  /* 🔥 Safari fix */
+  -webkit-overflow-scrolling: touch;
 }
 
 /* 🔥 Wrapper para posicionar el área clickeable relativo al video */
@@ -64,37 +68,47 @@ body {
   height: auto;
   object-fit: contain;
   display: block;
-  pointer-events: none; /* 🔥 Hace que el video no capture clicks */
+  pointer-events: none;
+  /* 🔥 Safari necesita esto para que no interfiera con touch */
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 /* 🔥 Efecto blur cuando se abre el GIF */
 .video-final-container.blurred {
   filter: blur(8px);
+  -webkit-filter: blur(8px); /* 🔥 Prefijo para Safari */
   pointer-events: none;
 }
 
 /* 🔥 ÁREA CLICKEABLE - Posicionada con porcentajes relativos al video */
 #clickableArea {
   position: absolute;
-  /* 🔥 Ajusta estos porcentajes según la ubicación en tu video */
-  bottom: 6%;    /* 6% desde abajo del video */
-  left: 8%;      /* 8% desde la izquierda del video */
-  width: 15%;    /* 15% del ancho del video */
-  height: 8%;    /* 8% del alto del video */
+  bottom: 6%;
+  left: 8%;
+  width: 15%;
+  height: 8%;
   cursor: pointer;
-  z-index: 10;   /* 🔥 Por encima del video */
-  pointer-events: auto; /* 🔥 Asegura que capture clicks */
+  z-index: 10;
+  pointer-events: auto;
+  /* 🔥 Safari necesita esto para detectar touch */
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
   /* 🔥 Área visible para debugging - descomenta para ver */
-  /* background: rgba(255, 0, 0, 0.3); */
+  /* background: rgba(255, 0, 0, 0.5); */
   /* border: 2px solid red; */
 }
 
 /* 🔥 Aumenta el área de toque en móviles */
 @media (hover: none) and (pointer: coarse) {
   #clickableArea {
-    /* Hace el área un poco más grande en móviles */
     width: 20%;
     height: 10%;
+    /* 🔥 Mínimo tamaño táctil recomendado por Apple */
+    min-width: 44px;
+    min-height: 44px;
   }
 }
 
@@ -115,6 +129,8 @@ body {
   cursor: pointer;
   transition: 0.3s ease;
   z-index: 10;
+  /* 🔥 Safari fix */
+  -webkit-tap-highlight-color: transparent;
 }
 
 #abrirBtn:hover {
@@ -131,6 +147,7 @@ body {
   justify-content: center;
   align-items: center;
   backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px); /* 🔥 Safari */
   z-index: 100;
 }
 
@@ -161,6 +178,8 @@ body {
   background-color: #5a0f1b;
   color: white;
   cursor: pointer;
+  /* 🔥 Safari fix */
+  -webkit-tap-highlight-color: transparent;
 }
 
 #errorMsg {
@@ -180,6 +199,7 @@ body {
   align-items: center;
   z-index: 200;
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px); /* 🔥 Safari */
   animation: fadeIn 0.3s ease;
 }
 
@@ -189,6 +209,9 @@ body {
   height: auto;
   border-radius: 15px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  /* 🔥 Previene que Safari intente hacer zoom */
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 #volverBtn {
@@ -202,6 +225,11 @@ body {
   font-weight: bold;
   cursor: pointer;
   transition: 0.3s ease;
+  /* 🔥 Safari fix */
+  -webkit-tap-highlight-color: transparent;
+  /* 🔥 Tamaño mínimo táctil */
+  min-width: 44px;
+  min-height: 44px;
 }
 
 #volverBtn:hover {
