@@ -17,9 +17,8 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 
-/* ================= VIDEO ================= */
+/* VIDEO CONTAINERS */
 
-/* ----- Primer Video ----- */
 .video-container {
   position: fixed;
   top: 0;
@@ -43,7 +42,6 @@ body {
   margin: auto 0;
 }
 
-/* ----- Video Final ----- */
 .video-final-container {
   position: fixed;
   top: 0;
@@ -60,7 +58,6 @@ body {
   -webkit-overflow-scrolling: touch;
 }
 
-/* 🔥 Wrapper para posicionar el área clickeable relativo al video */
 .video-wrapper {
   position: relative;
   width: 100%;
@@ -78,20 +75,21 @@ body {
   user-select: none;
 }
 
-/* 🔥 Efecto blur cuando se abre el GIF */
+/* Efecto blur cuando se abre un GIF */
 .video-final-container.blurred {
   filter: blur(8px);
   -webkit-filter: blur(8px);
   pointer-events: none;
 }
 
-/* 🔥 ÁREA CLICKEABLE - Posicionada con porcentajes relativos al video */
+/* ÁREA CLICKEABLE INVISIBLE */
+/* Ajusta bottom, left, width, height para posicionar sobre la foto */
 #clickableArea {
   position: absolute;
-  bottom: 8.5%;
+  bottom: 10%;
   left: 10%;
   width: 15%;
-  height: 8%;
+  height: 15%;
   cursor: pointer;
   z-index: 10;
   pointer-events: auto;
@@ -99,11 +97,12 @@ body {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   user-select: none;
+  /* Descomentar para ver el área mientras ajustas */
   /* background: rgba(255, 0, 0, 0.5); */
   /* border: 2px solid red; */
 }
 
-/* 🔥 Aumenta el área de toque en móviles */
+/* Área más grande en dispositivos móviles */
 @media (hover: none) and (pointer: coarse) {
   #clickableArea {
     width: 20%;
@@ -113,7 +112,7 @@ body {
   }
 }
 
-/* ================= BOTONES ================= */
+/* BOTONES */
 
 #abrirBtn {
   position: fixed;
@@ -137,7 +136,7 @@ body {
   transform: translateX(-50%) scale(1.05);
 }
 
-/* 🔥 BOTÓN DE FLORES */
+/* Botón de flores (aparece después del primer GIF) */
 #floresBtn {
   position: fixed;
   bottom: 40px;
@@ -176,7 +175,7 @@ body {
   }
 }
 
-/* ================= MODAL CONTRASEÑA ================= */
+/* MODAL CONTRASEÑA */
 
 .modal {
   position: fixed;
@@ -228,7 +227,7 @@ body {
   margin-top: 10px;
 }
 
-/* 🔥 ================= MODALES GIF ================= */
+/* MODALES GIF */
 
 .gif-modal {
   position: fixed;
@@ -279,7 +278,7 @@ body {
   background-color: #f0f0f0;
 }
 
-/* ================= UTILIDADES ================= */
+/* UTILIDADES */
 
 .hidden {
   display: none;

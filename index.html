@@ -2,14 +2,12 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-
   <meta name="viewport" 
         content="width=device-width, 
                  initial-scale=1.0, 
                  minimum-scale=1.0, 
                  maximum-scale=3.0, 
                  user-scalable=yes">
-
   <title>Carta</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
@@ -25,7 +23,6 @@
       controlsList="nodownload"
       disablePictureInPicture
     ></video>
-
     <button id="abrirBtn">Abrir</button>
   </div>
 
@@ -42,18 +39,17 @@
         controlsList="nodownload"
         disablePictureInPicture
       ></video>
-
+      <!-- Área clickeable invisible sobre la foto -->
       <div id="clickableArea"></div>
     </div>
-
-    <!-- 🔥 BOTÓN DE FLORES (aparece después de ver el primer GIF) -->
+    <!-- Botón de flores (aparece después de ver el primer GIF) -->
     <button id="floresBtn" class="hidden">🌸</button>
   </div>
 
   <!-- MODAL CONTRASEÑA -->
   <div class="modal hidden" id="modal">
     <div class="modal-content">
-      <h2>Ingresa la fecha de nuestra primera cita 💌</h2>
+      <h2>Ingresa la fecha 💌</h2>
       <input 
         type="text" 
         inputmode="numeric"
@@ -73,7 +69,7 @@
     <button id="volverBtn">← Volver</button>
   </div>
 
-  <!-- 🔥 MODAL GIF FLORES -->
+  <!-- MODAL GIF FLORES -->
   <div class="gif-modal hidden" id="floresModal">
     <img id="floresGif" src="assets/flores.gif" alt="Flores" />
     <button id="volverFloresBtn">← Volver</button>
