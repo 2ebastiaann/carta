@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8" />
 
-  <!-- 🔥 CONFIGURACIÓN DE ZOOM CORRECTA -->
   <meta name="viewport" 
         content="width=device-width, 
                  initial-scale=1.0, 
@@ -32,7 +31,6 @@
 
   <!-- VIDEO FINAL -->
   <div class="video-final-container hidden" id="videoFinalContainer">
-    <!-- 🔥 Wrapper que contiene el video y el área clickeable -->
     <div class="video-wrapper">
       <video 
         id="videoFinal"
@@ -45,7 +43,6 @@
         disablePictureInPicture
       ></video>
 
-      <!-- 🔥 ÁREA CLICKEABLE anclada al video -->
       <div id="clickableArea"></div>
     </div>
   </div>
@@ -54,7 +51,6 @@
   <div class="modal hidden" id="modal">
     <div class="modal-content">
       <h2>Ingresa la fecha 💌</h2>
-      <!-- 🔥 Añadido readonly inicialmente para evitar zoom en Safari -->
       <input 
         type="text" 
         inputmode="numeric"
@@ -68,11 +64,16 @@
     </div>
   </div>
 
-  <!-- 🔥 MODAL GIF -->
+  <!-- MODAL GIF -->
   <div class="gif-modal hidden" id="gifModal">
     <img id="gifImage" src="assets/ventana1.gif" alt="Ventana" />
     <button id="volverBtn">← Volver</button>
   </div>
+
+  <!-- 🔥 AUDIO PARA LA CANCIÓN -->
+  <audio id="audioCancion" preload="auto">
+    <source src="assets/M.A.I.mp3" type="audio/mpeg">
+  </audio>
 
   <script src="app.js"></script>
 </body>

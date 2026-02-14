@@ -13,54 +13,51 @@ const clickableArea = document.getElementById("clickableArea");
 const gifModal = document.getElementById("gifModal");
 const volverBtn = document.getElementById("volverBtn");
 
+// 🔥 AUDIO
+const audioCancion = document.getElementById("audioCancion");
+
 const PASSWORD = "14022025";
 
-// 🔥 Asegurar calidad y reinicio correcto
+// 🔥 Variable para controlar si la canción ya sonó
+let cancionReproducida = false;
+
 window.addEventListener("load", () => {
   videoInicial.pause();
   videoInicial.currentTime = 0;
   videoInicial.load();
   
-  // 🔥 Forzar posición inicial
+  // 🔥 Precargar el audio
+  audioCancion.load();
+  
   document.documentElement.scrollTop = 0;
   document.body.scrollTop = 0;
   videoContainer.scrollTop = 0;
 });
 
-// Abrir modal
 abrirBtn.addEventListener("click", () => {
   modal.classList.remove("hidden");
 });
 
-// 🔥 Prevenir scroll cuando se abre el teclado
 let originalScrollPos = 0;
 
 passwordInput.addEventListener("focus", () => {
   originalScrollPos = window.pageYOffset || document.documentElement.scrollTop;
-  
-  // 🔥 Prevenir scroll en Safari
   document.body.style.position = 'fixed';
   document.body.style.top = `-${originalScrollPos}px`;
   document.body.style.width = '100%';
 });
 
 passwordInput.addEventListener("blur", () => {
-  // 🔥 Restaurar scroll
   document.body.style.position = '';
   document.body.style.top = '';
   document.body.style.width = '';
-  
   window.scrollTo(0, 0);
   videoContainer.scrollTop = 0;
 });
 
-// Confirmar contraseña
 confirmarBtn.addEventListener("click", () => {
   if (passwordInput.value === PASSWORD) {
-    // 🔥 Desactivar el blur del input manualmente
     passwordInput.blur();
-    
-    // 🔥 Forzar restauración de posición
     document.body.style.position = '';
     document.body.style.top = '';
     document.body.style.width = '';
@@ -68,7 +65,6 @@ confirmarBtn.addEventListener("click", () => {
     modal.classList.add("hidden");
     errorMsg.textContent = "";
     
-    // 🔥 Esperar un frame antes de abrir carta
     requestAnimationFrame(() => {
       window.scrollTo(0, 0);
       videoContainer.scrollTop = 0;
@@ -84,8 +80,6 @@ confirmarBtn.addEventListener("click", () => {
 
 function abrirCarta() {
   abrirBtn.style.display = "none";
-
-  // 🔥 Asegurar posición arriba
   window.scrollTo(0, 0);
   videoContainer.scrollTop = 0;
 
@@ -103,19 +97,63 @@ function abrirCarta() {
   };
 }
 
+// 🔥 Función para abrir el modal del GIF
 function abrirGifModal() {
+  console.log("Abriendo GIF modal");
   gifModal.classList.remove("hidden");
   videoFinalContainer.classList.add("blurred");
   videoFinal.pause();
+  
+  // 🔥 REPRODUCIR CANCIÓN SOLO SI NO HA SONADO ANTES
+  if (!cancionReproducida) {
+    console.log("Reproduciendo canción por primera vez");
+    audioCancion.currentTime = 0;
+    
+    // 🔥 Intentar reproducir con manejo de errores para Safari
+    const reproducirPromesa = audioCancion.play();
+    
+    if (reproducirPromesa !== undefined) {
+      reproducirPromesa
+        .then(() => {
+          console.log("Canción reproducida exitosamente");
+          cancionReproducida = true; // 🔥 Marcar como reproducida
+        })
+        .catch(err => {
+          console.log("Error al reproducir audio:", err);
+          // 🔥 En Safari, si falla, intentar de nuevo después de un breve delay
+          setTimeout(() => {
+            audioCancion.play()
+              .then(() => {
+                console.log("Canción reproducida en segundo intento");
+                cancionReproducida = true;
+              })
+              .catch(e => console.log("No se pudo reproducir:", e));
+          }, 100);
+        });
+    }
+  } else {
+    console.log("La canción ya fue reproducida anteriormente");
+  }
 }
 
+// 🔥 Función para cerrar el modal del GIF
 function cerrarGifModal() {
+  console.log("Cerrando GIF modal");
   gifModal.classList.add("hidden");
   videoFinalContainer.classList.remove("blurred");
   videoFinal.play().catch(err => {
-    console.log("No se pudo reproducir automáticamente:", err);
+    console.log("No se pudo reproducir video automáticamente:", err);
   });
+  
+  // 🔥 NO pausar la canción, dejar que termine
+  // La canción sigue sonando aunque se cierre el GIF
 }
+
+// 🔥 Cuando la canción termina, asegurar que está marcada como reproducida
+audioCancion.addEventListener("ended", () => {
+  console.log("Canción terminó de reproducirse");
+  cancionReproducida = true;
+});
 
 // Eventos para el área clickeable
 clickableArea.addEventListener("click", (e) => {
