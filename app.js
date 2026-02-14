@@ -20,6 +20,8 @@ const PASSWORD = "14022025";
 
 // 🔥 Variable para controlar si la canción ya sonó
 let cancionReproducida = false;
+// 🔥 Variable para saber si el audio está "desbloqueado" en Safari
+let audioDesbloqueado = false;
 
 window.addEventListener("load", () => {
   videoInicial.pause();
@@ -34,7 +36,23 @@ window.addEventListener("load", () => {
   videoContainer.scrollTop = 0;
 });
 
+// 🔥 Desbloquear audio en Safari iOS con la primera interacción
+function desbloquearAudio() {
+  if (!audioDesbloqueado) {
+    // 🔥 Intentar reproducir y pausar inmediatamente (hack para Safari)
+    audioCancion.play().then(() => {
+      audioCancion.pause();
+      audioCancion.currentTime = 0;
+      audioDesbloqueado = true;
+      console.log("Audio desbloqueado para Safari");
+    }).catch(err => {
+      console.log("No se pudo desbloquear audio:", err);
+    });
+  }
+}
+
 abrirBtn.addEventListener("click", () => {
+  desbloquearAudio(); // 🔥 Desbloquear con el primer click
   modal.classList.remove("hidden");
 });
 
@@ -56,6 +74,8 @@ passwordInput.addEventListener("blur", () => {
 });
 
 confirmarBtn.addEventListener("click", () => {
+  desbloquearAudio(); // 🔥 Desbloquear también aquí
+  
   if (passwordInput.value === PASSWORD) {
     passwordInput.blur();
     document.body.style.position = '';
@@ -97,6 +117,61 @@ function abrirCarta() {
   };
 }
 
+// 🔥 Función para reproducir audio (con reintentos para Safari)
+function reproducirCancion() {
+  if (cancionReproducida) {
+    console.log("La canción ya fue reproducida");
+    return;
+  }
+
+  console.log("Intentando reproducir canción...");
+  audioCancion.currentTime = 0;
+  
+  // 🔥 Intento 1: Reproducir inmediatamente
+  const intentarReproducir = () => {
+    const promesa = audioCancion.play();
+    
+    if (promesa !== undefined) {
+      promesa
+        .then(() => {
+          console.log("✅ Canción reproducida exitosamente");
+          cancionReproducida = true;
+        })
+        .catch(err => {
+          console.log("❌ Error al reproducir (intento 1):", err);
+          
+          // 🔥 Intento 2: Esperar un poco y reintentar
+          setTimeout(() => {
+            console.log("Reintentando reproducción...");
+            audioCancion.play()
+              .then(() => {
+                console.log("✅ Canción reproducida en segundo intento");
+                cancionReproducida = true;
+              })
+              .catch(e => {
+                console.log("❌ Error en segundo intento:", e);
+                
+                // 🔥 Intento 3: Último recurso
+                setTimeout(() => {
+                  console.log("Último intento de reproducción...");
+                  audioCancion.play()
+                    .then(() => {
+                      console.log("✅ Canción reproducida en tercer intento");
+                      cancionReproducida = true;
+                    })
+                    .catch(finalErr => {
+                      console.log("❌ No se pudo reproducir después de 3 intentos:", finalErr);
+                    });
+                }, 200);
+              });
+          }, 100);
+        });
+    }
+  };
+  
+  intentarReproducir();
+}
+
 // 🔥 Función para abrir el modal del GIF
 function abrirGifModal() {
   console.log("Abriendo GIF modal");
@@ -104,36 +179,8 @@ function abrirGifModal() {
   videoFinalContainer.classList.add("blurred");
   videoFinal.pause();
   
-  // 🔥 REPRODUCIR CANCIÓN SOLO SI NO HA SONADO ANTES
-  if (!cancionReproducida) {
-    console.log("Reproduciendo canción por primera vez");
-    audioCancion.currentTime = 0;
-    
-    // 🔥 Intentar reproducir con manejo de errores para Safari
-    const reproducirPromesa = audioCancion.play();
-    
-    if (reproducirPromesa !== undefined) {
-      reproducirPromesa
-        .then(() => {
-          console.log("Canción reproducida exitosamente");
-          cancionReproducida = true; // 🔥 Marcar como reproducida
-        })
-        .catch(err => {
-          console.log("Error al reproducir audio:", err);
-          // 🔥 En Safari, si falla, intentar de nuevo después de un breve delay
-          setTimeout(() => {
-            audioCancion.play()
-              .then(() => {
-                console.log("Canción reproducida en segundo intento");
-                cancionReproducida = true;
-              })
-              .catch(e => console.log("No se pudo reproducir:", e));
-          }, 100);
-        });
-    }
-  } else {
-    console.log("La canción ya fue reproducida anteriormente");
-  }
+  // 🔥 Reproducir canción solo si no ha sonado
+  reproducirCancion();
 }
 
 // 🔥 Función para cerrar el modal del GIF
@@ -144,32 +191,32 @@ function cerrarGifModal() {
   videoFinal.play().catch(err => {
     console.log("No se pudo reproducir video automáticamente:", err);
   });
-  
-  // 🔥 NO pausar la canción, dejar que termine
-  // La canción sigue sonando aunque se cierre el GIF
 }
 
-// 🔥 Cuando la canción termina, asegurar que está marcada como reproducida
+// 🔥 Cuando la canción termina
 audioCancion.addEventListener("ended", () => {
-  console.log("Canción terminó de reproducirse");
+  console.log("✅ Canción terminó de reproducirse");
   cancionReproducida = true;
 });
 
-// Eventos para el área clickeable
+// 🔥 Eventos para el área clickeable - IMPORTANTE: desbloquear audio aquí también
 clickableArea.addEventListener("click", (e) => {
   e.preventDefault();
   e.stopPropagation();
+  desbloquearAudio(); // 🔥 Crítico para Safari
   abrirGifModal();
 }, { passive: false });
 
 clickableArea.addEventListener("touchend", (e) => {
   e.preventDefault();
   e.stopPropagation();
+  desbloquearAudio(); // 🔥 Crítico para Safari
   abrirGifModal();
 }, { passive: false });
 
 clickableArea.addEventListener("touchstart", (e) => {
   e.preventDefault();
+  desbloquearAudio(); // 🔥 Desbloquear en el primer toque
 }, { passive: false });
 
 clickableArea.addEventListener("touchmove", (e) => {
