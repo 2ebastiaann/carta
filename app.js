@@ -21,7 +21,7 @@ const volverFloresBtn = document.getElementById("volverFloresBtn");
 
 const audioCancion = document.getElementById("audioCancion");
 
-const PASSWORD = "14022025";
+const PASSWORD = "14102025";
 
 let cancionReproducida = false;
 let audioDesbloqueado = false;
