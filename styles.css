@@ -6,7 +6,6 @@
 
 html, body {
   height: 100%;
-  /* 🔥 Prevenir que Safari mueva la página con el teclado */
   position: fixed;
   width: 100%;
   overflow: hidden;
@@ -89,12 +88,10 @@ body {
 /* 🔥 ÁREA CLICKEABLE - Posicionada con porcentajes relativos al video */
 #clickableArea {
   position: absolute;
-  /* 🔥 AJUSTA AQUÍ LA POSICIÓN DEL ÁREA CLICKEABLE */
-  bottom: 10%;    /* Distancia desde abajo (aumenta para subir, disminuye para bajar) */
-  left: 18%;        /* Distancia desde la izquierda (aumenta para mover a la derecha) */
-  width: 15%;      /* Ancho del área */
-  height: 8%;      /* Alto del área */
-  
+  bottom: 6.5%;
+  left: 8%;
+  width: 15%;
+  height: 8%;
   cursor: pointer;
   z-index: 10;
   pointer-events: auto;
@@ -102,7 +99,6 @@ body {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   user-select: none;
-  /* 🔥 Área visible para debugging - descomenta para ver dónde está */
   /* background: rgba(255, 0, 0, 0.5); */
   /* border: 2px solid red; */
 }
@@ -117,7 +113,7 @@ body {
   }
 }
 
-/* ================= BOTÓN ================= */
+/* ================= BOTONES ================= */
 
 #abrirBtn {
   position: fixed;
@@ -139,6 +135,45 @@ body {
 
 #abrirBtn:hover {
   transform: translateX(-50%) scale(1.05);
+}
+
+/* 🔥 BOTÓN DE FLORES */
+#floresBtn {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  width: 60px;
+  height: 60px;
+  border: none;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ffeef8 0%, #ffd4e5 100%);
+  font-size: 30px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(255, 105, 180, 0.4);
+  transition: all 0.3s ease;
+  z-index: 15;
+  -webkit-tap-highlight-color: transparent;
+  animation: aparecer 0.5s ease;
+}
+
+#floresBtn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(255, 105, 180, 0.6);
+}
+
+#floresBtn:active {
+  transform: scale(0.95);
+}
+
+@keyframes aparecer {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 /* ================= MODAL CONTRASEÑA ================= */
@@ -163,7 +198,6 @@ body {
   width: 85%;
   max-width: 320px;
   animation: fadeIn 0.3s ease;
-  /* 🔥 Prevenir que Safari haga zoom */
   transform: translateZ(0);
   -webkit-transform: translateZ(0);
 }
@@ -172,10 +206,9 @@ body {
   margin-top: 15px;
   padding: 10px;
   width: 100%;
-  font-size: 16px; /* 🔥 Mínimo 16px para que Safari no haga zoom */
+  font-size: 16px;
   border-radius: 8px;
   border: 1px solid #ccc;
-  /* 🔥 Prevenir zoom en Safari iOS */
   -webkit-appearance: none;
 }
 
@@ -195,7 +228,7 @@ body {
   margin-top: 10px;
 }
 
-/* 🔥 ================= MODAL GIF ================= */
+/* 🔥 ================= MODALES GIF ================= */
 
 .gif-modal {
   position: fixed;
@@ -211,7 +244,8 @@ body {
   animation: fadeIn 0.3s ease;
 }
 
-#gifImage {
+#gifImage,
+#floresGif {
   width: 90%;
   max-width: 400px;
   height: auto;
@@ -222,7 +256,8 @@ body {
   margin-bottom: 10px;
 }
 
-#volverBtn {
+#volverBtn,
+#volverFloresBtn {
   margin-top: 20px;
   padding: 12px 30px;
   font-size: 16px;
@@ -238,7 +273,8 @@ body {
   min-height: 44px;
 }
 
-#volverBtn:hover {
+#volverBtn:hover,
+#volverFloresBtn:hover {
   transform: scale(1.05);
   background-color: #f0f0f0;
 }

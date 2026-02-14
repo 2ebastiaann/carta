@@ -45,6 +45,9 @@
 
       <div id="clickableArea"></div>
     </div>
+
+    <!-- 🔥 BOTÓN DE FLORES (aparece después de ver el primer GIF) -->
+    <button id="floresBtn" class="hidden">🌸</button>
   </div>
 
   <!-- MODAL CONTRASEÑA -->
@@ -64,13 +67,19 @@
     </div>
   </div>
 
-  <!-- MODAL GIF -->
+  <!-- MODAL GIF VENTANA -->
   <div class="gif-modal hidden" id="gifModal">
     <img id="gifImage" src="assets/ventana1.gif" alt="Ventana" />
     <button id="volverBtn">← Volver</button>
   </div>
 
-  <!-- 🔥 AUDIO PARA LA CANCIÓN -->
+  <!-- 🔥 MODAL GIF FLORES -->
+  <div class="gif-modal hidden" id="floresModal">
+    <img id="floresGif" src="assets/flores.gif" alt="Flores" />
+    <button id="volverFloresBtn">← Volver</button>
+  </div>
+
+  <!-- AUDIO -->
   <audio id="audioCancion" preload="auto">
     <source src="assets/M.A.I.mp3" type="audio/mpeg">
   </audio>

@@ -13,22 +13,27 @@ const clickableArea = document.getElementById("clickableArea");
 const gifModal = document.getElementById("gifModal");
 const volverBtn = document.getElementById("volverBtn");
 
-// 🔥 AUDIO
+// 🔥 Elementos del botón y modal de flores
+const floresBtn = document.getElementById("floresBtn");
+const floresModal = document.getElementById("floresModal");
+const floresGif = document.getElementById("floresGif");
+const volverFloresBtn = document.getElementById("volverFloresBtn");
+
 const audioCancion = document.getElementById("audioCancion");
 
 const PASSWORD = "14022025";
 
-// 🔥 Variable para controlar si la canción ya sonó
 let cancionReproducida = false;
-// 🔥 Variable para saber si el audio está "desbloqueado" en Safari
 let audioDesbloqueado = false;
+// 🔥 Variables para controlar el flujo de flores
+let primerGifVisto = false;
+let floresGifReproducido = false;
 
 window.addEventListener("load", () => {
   videoInicial.pause();
   videoInicial.currentTime = 0;
   videoInicial.load();
   
-  // 🔥 Precargar el audio
   audioCancion.load();
   
   document.documentElement.scrollTop = 0;
@@ -36,10 +41,8 @@ window.addEventListener("load", () => {
   videoContainer.scrollTop = 0;
 });
 
-// 🔥 Desbloquear audio en Safari iOS con la primera interacción
 function desbloquearAudio() {
   if (!audioDesbloqueado) {
-    // 🔥 Intentar reproducir y pausar inmediatamente (hack para Safari)
     audioCancion.play().then(() => {
       audioCancion.pause();
       audioCancion.currentTime = 0;
@@ -52,7 +55,7 @@ function desbloquearAudio() {
 }
 
 abrirBtn.addEventListener("click", () => {
-  desbloquearAudio(); // 🔥 Desbloquear con el primer click
+  desbloquearAudio();
   modal.classList.remove("hidden");
 });
 
@@ -74,7 +77,7 @@ passwordInput.addEventListener("blur", () => {
 });
 
 confirmarBtn.addEventListener("click", () => {
-  desbloquearAudio(); // 🔥 Desbloquear también aquí
+  desbloquearAudio();
   
   if (passwordInput.value === PASSWORD) {
     passwordInput.blur();
@@ -117,7 +120,6 @@ function abrirCarta() {
   };
 }
 
-// 🔥 Función para reproducir audio (con reintentos para Safari)
 function reproducirCancion() {
   if (cancionReproducida) {
     console.log("La canción ya fue reproducida");
@@ -127,7 +129,6 @@ function reproducirCancion() {
   console.log("Intentando reproducir canción...");
   audioCancion.currentTime = 0;
   
-  // 🔥 Intento 1: Reproducir inmediatamente
   const intentarReproducir = () => {
     const promesa = audioCancion.play();
     
@@ -140,7 +141,6 @@ function reproducirCancion() {
         .catch(err => {
           console.log("❌ Error al reproducir (intento 1):", err);
           
-          // 🔥 Intento 2: Esperar un poco y reintentar
           setTimeout(() => {
             console.log("Reintentando reproducción...");
             audioCancion.play()
@@ -151,7 +151,6 @@ function reproducirCancion() {
               .catch(e => {
                 console.log("❌ Error en segundo intento:", e);
                 
-                // 🔥 Intento 3: Último recurso
                 setTimeout(() => {
                   console.log("Último intento de reproducción...");
                   audioCancion.play()
@@ -172,18 +171,15 @@ function reproducirCancion() {
   intentarReproducir();
 }
 
-// 🔥 Función para abrir el modal del GIF
 function abrirGifModal() {
   console.log("Abriendo GIF modal");
   gifModal.classList.remove("hidden");
   videoFinalContainer.classList.add("blurred");
   videoFinal.pause();
   
-  // 🔥 Reproducir canción solo si no ha sonado
   reproducirCancion();
 }
 
-// 🔥 Función para cerrar el modal del GIF
 function cerrarGifModal() {
   console.log("Cerrando GIF modal");
   gifModal.classList.add("hidden");
@@ -191,39 +187,75 @@ function cerrarGifModal() {
   videoFinal.play().catch(err => {
     console.log("No se pudo reproducir video automáticamente:", err);
   });
+  
+  // 🔥 Marcar que vio el primer GIF y mostrar botón de flores
+  if (!primerGifVisto) {
+    primerGifVisto = true;
+    floresBtn.classList.remove("hidden");
+    console.log("✅ Botón de flores activado");
+  }
 }
 
-// 🔥 Cuando la canción termina
+// 🔥 Función para abrir modal de flores
+function abrirFloresModal() {
+  console.log("Abriendo modal de flores");
+  floresModal.classList.remove("hidden");
+  videoFinalContainer.classList.add("blurred");
+  videoFinal.pause();
+  
+  // 🔥 Reproducir el GIF solo una vez
+  if (!floresGifReproducido) {
+    floresGif.src = ""; // Reset
+    floresGif.src = "assets/flores.gif?" + new Date().getTime(); // Forzar recarga
+    floresGifReproducido = true;
+    console.log("✅ GIF de flores reproducido");
+  }
+  
+  // 🔥 Ocultar el botón de flores permanentemente
+  floresBtn.classList.add("hidden");
+  floresBtn.remove(); // Eliminarlo del DOM
+}
+
+// 🔥 Función para cerrar modal de flores
+function cerrarFloresModal() {
+  console.log("Cerrando modal de flores");
+  floresModal.classList.add("hidden");
+  videoFinalContainer.classList.remove("blurred");
+  videoFinal.play().catch(err => {
+    console.log("No se pudo reproducir video automáticamente:", err);
+  });
+}
+
 audioCancion.addEventListener("ended", () => {
   console.log("✅ Canción terminó de reproducirse");
   cancionReproducida = true;
 });
 
-// 🔥 Eventos para el área clickeable - IMPORTANTE: desbloquear audio aquí también
+// Eventos para el área clickeable
 clickableArea.addEventListener("click", (e) => {
   e.preventDefault();
   e.stopPropagation();
-  desbloquearAudio(); // 🔥 Crítico para Safari
+  desbloquearAudio();
   abrirGifModal();
 }, { passive: false });
 
 clickableArea.addEventListener("touchend", (e) => {
   e.preventDefault();
   e.stopPropagation();
-  desbloquearAudio(); // 🔥 Crítico para Safari
+  desbloquearAudio();
   abrirGifModal();
 }, { passive: false });
 
 clickableArea.addEventListener("touchstart", (e) => {
   e.preventDefault();
-  desbloquearAudio(); // 🔥 Desbloquear en el primer toque
+  desbloquearAudio();
 }, { passive: false });
 
 clickableArea.addEventListener("touchmove", (e) => {
   e.preventDefault();
 }, { passive: false });
 
-// Eventos para el botón volver
+// Eventos para el botón volver (primer GIF)
 volverBtn.addEventListener("click", (e) => {
   e.preventDefault();
   e.stopPropagation();
@@ -237,5 +269,39 @@ volverBtn.addEventListener("touchend", (e) => {
 }, { passive: false });
 
 volverBtn.addEventListener("touchstart", (e) => {
+  e.preventDefault();
+}, { passive: false });
+
+// 🔥 Eventos para el botón de flores
+floresBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+  abrirFloresModal();
+}, { passive: false });
+
+floresBtn.addEventListener("touchend", (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+  abrirFloresModal();
+}, { passive: false });
+
+floresBtn.addEventListener("touchstart", (e) => {
+  e.preventDefault();
+}, { passive: false });
+
+// 🔥 Eventos para el botón volver (modal de flores)
+volverFloresBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+  cerrarFloresModal();
+}, { passive: false });
+
+volverFloresBtn.addEventListener("touchend", (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+  cerrarFloresModal();
+}, { passive: false });
+
+volverFloresBtn.addEventListener("touchstart", (e) => {
   e.preventDefault();
 }, { passive: false });
