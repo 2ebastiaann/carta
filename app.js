@@ -21,7 +21,7 @@ const volverFloresBtn = document.getElementById("volverFloresBtn");
 const audioCancion = document.getElementById("audioCancion");
 
 // Cambiar la contraseña aquí (formato: DDMMYYYY)
-const PASSWORD = "14022025";
+const PASSWORD = "14102025";
 
 // Variables de control
 let cancionReproducida = false;
